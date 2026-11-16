@@ -1,0 +1,4 @@
+interface:
+  display_name: "鸿蒙 PC 移植与上架助手"
+  short_description: "按项目架构规划移植，推进构建、设备验证、发布材料与审核整改"
+  default_prompt: "使用 $harmonyos-pc-porting 分析当前项目，按其语言、架构和依赖制定并推进从移植到上架的流程，核对已有证据并列出下一步。"

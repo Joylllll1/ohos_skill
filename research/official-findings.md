@@ -1,0 +1,47 @@
+# 鸿蒙电脑应用适配与上架的资料核验
+
+核验日期 2026-11-16。以下华为资料适用于商业 HarmonyOS 鸿蒙电脑。OpenHarmonyPCDeveloper 资料用于对应的社区贡献、运行时或三方库路线。发布条件以目标应用、设备、分发地区和提交时的控制台为准。
+
+## 盘点与路线验证
+
+- 先明确原项目入口、构建系统、UI、运行时、核心任务、数据与宿主系统接口。逐项记录依赖版本、来源、许可证、间接依赖、源码或平台制品、目标 ABI/API、验证方式。对最难替换且影响核心功能的依赖，优先验证最小调用在目标设备上能否运行。
+- 已有 HarmonyOS 工程可复用经验证的 ArkTS/ArkUI 能力。跨平台框架按实际框架和版本核对鸿蒙工具链及插件状况。华为开发手册介绍 Flutter、React Native、KMP/CMP 的鸿蒙方案，并分别说明 ArkTS、C/C++、仓颉以及由社区支持的 Python、Go、Rust、Java、Julia 等路径。支持某门语言或框架仍需验证项目的运行时、插件、窗口和设备接口。 [跨平台开发解决方案](https://developer.huawei.com/consumer/cn/doc/guidebook/solution-0000002784651007/) · [鸿蒙应用开发编程语言](https://developer.huawei.com/consumer/cn/doc/guidebook/programming-language1-0000002593254720/)
+- 选择可交付的组合，再贯通启动、界面和一条使用真实数据的核心流程。开源社区提供嵌入 CPython、Node.js、Java 运行时及移植对应三方库的文档。依赖纯语言包与扩展模块的应用分别验证解释器或虚拟机、本机二进制、间接依赖和进程模型。 [社区文档索引](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/README_zh.md)
+
+## 设备与桌面体验
+
+- HarmonyOS 的 `module.json5` 中 `module.deviceTypes` 用 `2in1` 声明 PC/2in1。逐个核对面向 PC 交付的 Entry/Feature HAP 和打包结果。根据目标 SDK 的 API 引入版本、设备范围、权限和 `canIUse` 的适用条件，决定能力的替代实现或平台分支。 [模块配置文件](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/module-configuration-file/) · [系统能力](https://developer.huawei.com/consumer/cn/doc/harmonyos-references/syscap/) · [发布审核常见问题](https://developer.huawei.com/consumer/cn/doc/harmonyos-faqs/appgallery-kit-faq-0013/)
+- 验证自由窗口、最大化与还原、拖拽缩放、最小窗口下的可操作性、分屏以及任务状态保持。验证键鼠点击、滚动、输入与焦点可见性，按业务验证快捷键、右键、悬停、触控板、拖放和文件选择。折叠、摄像头、触控和手写笔等按目标硬件与业务范围验证。 [鸿蒙电脑入门](https://developer.huawei.com/consumer/cn/multidevice/pc/get-started/) · [已有应用适配](https://developer.huawei.com/consumer/cn/multidevice/pc/adapt/) · [电脑应用开发](https://developer.huawei.com/consumer/cn/doc/best-practices/bpta-pc-guide/) · [电脑 UX 标准](https://developer.huawei.com/consumer/cn/doc/design-guides/ux-guidelines-2in1-0000001777895636) · [文件选择器 API](https://developer.huawei.com/consumer/cn/doc/harmonyos-references/js-apis-file-picker/)
+- 华为建议先用模拟器验证布局和基础交互，再用远程真机验证安装、启动、核心流程和窗口，使用本地真机验证依赖物理设备的交互。记录设备、系统版本、制品版本、复现步骤和结果。 [已有应用适配](https://developer.huawei.com/consumer/cn/multidevice/pc/adapt/) · [测试服务入门](https://developer.huawei.com/consumer/cn/testing/get-started/)
+
+## 按工程特点验证实现
+
+- **Native**。按目标设备与当前 SDK 确认 ABI、编译器、sysroot、可用 C API 和 C++ 运行时。CMake 可通过 `CMAKE_TOOLCHAIN_FILE` 选用 SDK 的工具链文件。Hvigor 工程以 `externalNativeOptions` 配置 `CMakeLists.txt`、`abiFilters` 等。原生预构建库通过 CMake 引入并核对包内库目录。同一应用的 C++ 运行时链接方式需一致。以目标工具链交叉编译缺少目标制品的库，检查架构、动态依赖和设备实际加载。 [NDK 开发导读](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/ndk-development-overview/) · [HarmonyOS ABI](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/ohos-abi/) · [CMake 三方库示例](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/toolchain-cmake-build-project/) · [Hvigor CPP 配置](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/ide-hmos-hvigor-cpp/) · [预构建库示例（V13）](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V13/build-with-ndk-prebuilts-V13/)
+- 当前 NDK 导读示例称 `hmos.toolchain.cmake`，ABI、命令行构建和历史示例可见 `ohos.toolchain.cmake` 和 `OHOS_ARCH`。从安装的 SDK 和对应版本文档确认实际文件与参数。ABI 列表覆盖 SDK 工具链所支持的架构，目标机器、模拟器和 IDE 选项分别核实。 [NDK 开发导读](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/ndk-development-overview/) · [命令行 CMake](https://developer.huawei.com/consumer/en/doc/harmonyos-guides/build-with-ndk-cmake/)
+- **跨语言**。HarmonyOS Node-API 用于 ArkTS/JS 与 C/C++ 交互，其覆盖范围须查目标 SDK。依赖 Electron/Node 进程模型、原生 addon、Python 扩展、外部程序或特定 GUI 框架时，用最小样例分别证明运行时、ABI、所需接口与部署方式。拟保留子进程时按目标 SDK 验证 HAP 内可执行文件机制、设备限制、权限、启动退出与错误报告。渲染需求可按业务评估 XComponent。 [NDK 开发导读](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/ndk-development-overview/) · [HAP 嵌入 bin](https://developer.huawei.com/consumer/cn/doc/harmonyOS-guides/hap-bin/) · [XComponent](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/napi-xcomponent-guidelines/)
+- **Web**。ArkWeb 可加载本地资源或远程页面。页面到应用可用 `javaScriptProxy` 或 `registerJavaScriptProxy`，应用到页面可用 `runJavaScript` 等。结合项目替换原宿主的 IPC、文件对话框、下载及外部链接等接口。为桥接限定可信来源、方法和数据范围，验证导航后的状态、敏感资源访问、离线或断网行为。 [ArkWeb 简介](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/web-component-overview/) · [页面调用应用](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/web-in-page-app-function-invoking/) · [应用调用页面](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/web-in-app-frontend-page-function-invoking) · [ArkWeb 安全实践](https://developer.huawei.com/consumer/cn/doc/best-practices/bpta-arkweb-component-security/)
+
+## 构建、签名与验收
+
+- 用工程锁定的工具和依赖完成可复现构建，记录 SDK、DevEco Studio/Hvigor、构建产品、变体、包名和版本。DevEco Studio 或其命令行 Hvigor 可构建 `.hap`、`.hsp`、`.har` 和 `.app`。`.app` 汇集交付的 HAP、HSP 和 `pack.info`。HAR 由使用方编译进入 HAP/HSP。用工具检查包内模块、设备类型、依赖、资源、版本和签名结果。 [应用程序包结构](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/application-package-structure-stage/) · [命令行搭建流水线](https://developer.huawei.com/consumer/cn/doc/doccenter-deveco-studio/ide-hmos-command-line-building-app/) · [拆包工具](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/unpacking-tool/)
+- 本地真机开发测试通常使用调试签名的 HAP，按需一并安装关联 HAP/HSP。DevEco Studio 可按项目和账号情况自动签名，手动调试签名涉及调试证书、设备和调试 Profile。当前 hdc 也记录从 API 22 起支持 `.app` 安装。云调试提供 HAP 和 APP 路径。调试和发布按目标设备、系统版本及签名类型分别验证。 [调试概述](https://developer.huawei.com/consumer/cn/doc/app/agc-help-debug-overview-0000001955332054/) · [hdc](https://developer.huawei.com/consumer/cn/doc/doccenter-capabilities/hdc/) · [云调试](https://developer.huawei.com/consumer/cn/doc/app/agc-help-clouddebug-debugapp-0000002289629821/)
+- HarmonyOS 商店交付使用发布签名的 `.app`。DevEco Studio 支持不同版本对应的发布流程。手动流程使用私钥库/CSR、发布证书、发布 Profile 和项目签名配置。签名材料及密码交由拥有权限的发布者保管。上传前按当前规则验证签名、包名、版本号、大小、API 和模块结构。 [DevEco Studio 发布](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/ide-publish-app/) · [发布证书](https://developer.huawei.com/consumer/cn/doc/app/agc-help-add-releasecert-0000001946273961) · [发布 Profile](https://developer.huawei.com/consumer/cn/doc/app/agc-help-add-releaseprofile-0000001914714796) · [发布准备](https://developer.huawei.com/consumer/cn/doc/App/agc-help-release-app-prepare-0000002306311921/)
+- 对可交付制品回归安装启动、关键业务流、文件导入导出、权限拒绝、断网和恢复、窗口与输入、退出重启和适用的数据升级。保留安装和运行结果、异常日志、兼容性/稳定性/性能验证及已知限制。按发布需要使用云测试、上架自检、邀请测试或指定设备测试。 [提交 HarmonyOS 应用](https://developer.huawei.com/consumer/cn/app/submit) · [测试服务入门](https://developer.huawei.com/consumer/cn/testing/get-started/) · [审核问题及检查](https://developer.huawei.com/consumer/cn/doc/doccenter-submission/50104/)
+
+## 华为上架核对
+
+1. 注册并实名认证华为开发者账号。在 HarmonyOS 开发者中心创建或确认已有应用、APP ID 和 `bundleName`，核对应用所属账号的管理权限。同一应用多设备分发可在一个应用记录配置。 [创建 HarmonyOS 应用](https://developer.huawei.com/consumer/cn/doc/App/agc-help-create-app-0000002247955506/) · [发布类型](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-overview-0000001272395372/)
+2. 在软件包管理上传正式签名包，选择覆盖正式上架的使用场景。核对系统识别的版本、设备与合法性检测结果。上架自检报告可用于提前修复风险。 [上传软件包](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-upload-pkg-0000002277983368/)
+3. 在应用信息配置分发设备，控制台勾选范围由包内 `deviceTypes` 覆盖。核验时华为帮助页把 PC/2in1 选择列在中国大陆范围，并说明已上架应用升级时须保留原分发设备，可增加设备。兼容分发另有规则。把地区与设备勾选当作发布时核对项。 [配置支持设备](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-devicetype-0000002271592112)
+4. 准备各语种应用名称、图标、简介、应用描述、真实截图、版本说明及适用的分类、分级、开发者服务信息、资费与审核联系信息。核验时 PC/2in1 商店素材为 1 张 216×216 或 1024×1024 的 PNG 图标（3 MB 以内），3 至 10 张 1920×1080 的 PNG/JPG/JPEG 截图（各 5 MB 以内）。提交时复核当前规范。包内图标遵循应用图标配置的独立要求。 [发布指引](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-guide-0000002287176372) · [素材规范](https://developer.huawei.com/consumer/cn/doc/App/agc-help-app-visual-asset-spec-0000002277607976/) · [应用图标配置](https://developer.huawei.com/consumer/cn/doc/doccenter-feature-dev/bpta-app-icon-configuration/)
+5. 准备隐私政策网址或托管声明、PC 隐私标签，以及扫描到敏感或受限权限时的理由、场景和相应材料。用最终包验证权限与隐私描述的一致性，覆盖三方 SDK 和其数据处理。按实际应用、地区和控制台要求准备版权/授权、备案、行业资质、AI 功能声明。涉及登录时，另行准备可覆盖评审路径的测试账号及操作提示。 [隐私说明](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-privacy-desc-0000002313477969) · [隐私声明](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-privacy-state-0000002278878296) · [APP 备案指引](https://developer.huawei.com/consumer/cn/doc/doccenter-submission/50130/) · [资质审核要求](https://developer.huawei.com/consumer/cn/doc/App/80301/) · [审核信息与联系方式](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-reviewinfo-0000002320780365)
+6. 在用户授权的范围内选择待发布版本、上架时间并提交审核。记录版本和控制台状态，依审核报告修改后再验证。正式上架后，使用指定渠道验证可发现性、安装、启动和适用的更新。 [发布指引](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-guide-0000002287176372) · [提交审核](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-submit-0000002286180890) · [升级应用版本](https://developer.huawei.com/consumer/cn/doc/app/agc-help-update-version-0000001146436549/)
+
+## OpenHarmonyPCDeveloper 社区渠道
+
+- 社区的开源应用上架指南给出三种名称形式。原项目名需要原作者或社区授权，另有使用英文括号的 `(based on …)` 和 `(from …)` 形式。该指南同时提供一句话简介和详情描述模板。 [开源应用上架指南](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/开源应用上架指南.md)
+- 社区贡献指南要求适配项目在仓库根目录提供 `README.OpenSource`，记录上游项目名、版本、上游链接、许可证及其位置、维护人、功能和引入原因。社区发布规范要求 Readme、License、ChangeLog，命名指导对该社区仓库规定 `ohos_项目名称` 并建议移植项目版本跟随上游。实际商店名称还需遵循华为审核与适用授权要求。 [贡献指导](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/rules/贡献指导.md) · [发布规范](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/rules/发布规范.md) · [命名指导](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/rules/命名指导.md)
+
+## 核验边界
+
+GitCode 网页正文通过公开 Contents API 或 raw 地址核验。社区发布规范中提及的 `质量要求.md` 在其链接位置返回 404。华为部分文档路径的页面抓取超时或只返回标题，使用相同条目的可读路径、搜索正文和正式发布指引交叉核验。未登录开发者中心，账号角色、当前可选地区、类目、入口和实际审核状态需要在目标账号复核。
