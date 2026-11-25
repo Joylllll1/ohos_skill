@@ -29,17 +29,22 @@
 - [创建应用](https://developer.huawei.com/consumer/cn/doc/App/agc-help-create-app-0000002247955506/)：账号下应用身份、APP ID 与包名。
 - [发布指引](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-guide-0000002287176372) 与 [发布准备](https://developer.huawei.com/consumer/cn/doc/App/agc-help-release-app-prepare-0000002306311921/)：正式应用包、信息、材料、测试与提交阶段。
 - [上传软件包](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-upload-pkg-0000002277983368/) 与 [配置支持设备](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-devicetype-0000002271592112)：包校验、分发设备和地区，升级时的设备范围限制亦需复查。
-- [视觉素材规范](https://developer.huawei.com/consumer/cn/doc/App/agc-help-app-visual-asset-spec-0000002277607976/)：按设备类型核实图标、截图数量/尺寸/格式/大小。素材数量和尺寸以目标设备及渠道当前要求为准。
+- [视觉素材规范](https://developer.huawei.com/consumer/cn/doc/App/agc-help-app-visual-asset-spec-0000002277607976/)：按应用类型和设备核实图标、截图数量/尺寸/格式/大小。2026-11-23 已读取普通应用 PC/2in1 对应表；规格基线和采集检查步骤见 [商店素材指南](store-assets.md)，每次上传/提审前仍须重新核对。
+- [应用图标配置](https://developer.huawei.com/consumer/cn/doc/doccenter-feature-dev/bpta-app-icon-configuration/)：核对目标 SDK 下包内图标资源及引用；商店上传图标的尺寸不能直接替代包内配置要求。
 - [隐私说明](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-privacy-desc-0000002313477969)、[隐私声明](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-privacy-state-0000002278878296)、[资质审核要求](https://developer.huawei.com/consumer/cn/doc/App/80301/)：按实际数据处理、权限、地区、类目和主体准备对应材料。
 - [APP 备案指引](https://developer.huawei.com/consumer/cn/doc/doccenter-submission/50130/)：按应用、地区与发布主体确认适用性和前置材料；不假设社区自动代办。
 - [提交审核](https://developer.huawei.com/consumer/cn/doc/app/agc-help-release-app-submit-0000002286180890) 与 [升级应用版本](https://developer.huawei.com/consumer/cn/doc/app/agc-help-update-version-0000001146436549/)：跟踪审核和后续版本，不从上传状态推断上线。
 
 ## 可选：OpenHarmonyPCDeveloper 社区
 
+- [共建指导](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/共建指导.md)：已有社区仓库则 fork 后提 PR；无仓库则申请，等管理员在 issue 回复仓库地址后再贡献代码。
+- [建仓申请模板](https://gitcode.com/OpenHarmonyPCDeveloper/community/blob/master/NewRepository.md) · [建仓 issue 入口](https://gitcode.com/OpenHarmonyPCDeveloper/community/issues/create/choose)：按当前模板准备申请；先查组织仓库及 community 已有 issue，避免重复建仓。
 - [开发文档索引](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/README_zh.md)：嵌入 CPython、Node.js、Java 等路线及三方库适配；匹配所用仓库提交与版本后再采用。
 - [开源应用上架指南](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/开源应用上架指南.md)：该社区的命名和描述模板，来源说明不替代商店授权审核。
 - [贡献指导](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/rules/贡献指导.md)：该社区适配项目根目录 `README.OpenSource` 等贡献要求。
 - [发布规范](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/rules/发布规范.md)、[命名指导](https://gitcode.com/OpenHarmonyPCDeveloper/docs/blob/main/contribute/rules/命名指导.md)：社区 README/License/ChangeLog、仓库命名和版本要求，作用域限于此渠道。
+
+共建指导与申请模板于 2026-11-22 通过 GitCode 公开 Contents API 核对，模板另由 raw 内容交叉核对；issue 入口由共建指导链接确认，未登录或实际提交。指南中的审核时间描述不作为本 skill 对管理员响应时间的承诺。
 
 ## 获取与有效性限制
 
