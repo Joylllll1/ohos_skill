@@ -2,7 +2,7 @@
 
 # HarmonyOS PC 移植与上架助手
 
-**辅助桌面应用移植到 HarmonyOS PC 的 Agent Skill，覆盖项目评估、工程接续、构建验证与上架发布。**
+**辅助桌面应用移植到 HarmonyOS PC 的 Agent Skill，按需支持本地运行、应用市场上架与社区贡献。**
 
 ![Agent Skill](https://img.shields.io/badge/Agent-Skill-2563EB)
 ![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python&logoColor=white)
@@ -53,7 +53,8 @@ skill 的执行能力取决于宿主，不提供后台监控，也不保证任�
 | 评估移植路线 | 拆分界面、核心逻辑、运行时和平台依赖，优先验证关键难点 |
 | 接手续作 | 区分开发、候选与线上版本，处理旧记录和最新状态的冲突 |
 | 构建与验证 | 核对工具链、依赖、包与测试记录，明确已测和未测范围 |
-| 上架与整改 | 整理签名、材料与审核反馈，按授权推进提交和发布 |
+| 上架与整改 | 核验签名、检查图标截图、交付上架材料，按授权处理审核整改与发布 |
+| 社区贡献 | 查重 OpenHarmonyPCDeveloper 仓库与建仓申请，按授权申请建仓、提交代码并记录进度 |
 | 交接与恢复 | 遇到登录、权限或设备问题时保存断点，用户完成后核验并继续 |
 
 另附 Python 标准库工具，支持文件盘点、空白台账创建和证据完整性检查。在仓库根目录运行：
@@ -69,6 +70,7 @@ python3 skills/harmonyos-pc-porting/scripts/porting_helper.py --help
 
 - [技能入口](skills/harmonyos-pc-porting/SKILL.md)：完整工作流程与工具用法。
 - [技术路线](skills/harmonyos-pc-porting/references/routes.md) · [验证指南](skills/harmonyos-pc-porting/references/validation.md) · [发布流程](skills/harmonyos-pc-porting/references/release.md)
+- [签名配置与产物核验](skills/harmonyos-pc-porting/references/signing.md) · [商店素材与包内图标](skills/harmonyos-pc-porting/references/store-assets.md)
 - [接手与状态核对](skills/harmonyos-pc-porting/references/resume.md) · [交接与恢复](skills/harmonyos-pc-porting/references/handoffs.md)
 - [项目记录模板](skills/harmonyos-pc-porting/assets/porting-plan.md) · [官方来源索引](skills/harmonyos-pc-porting/references/sources.md)
 - [验证记录](research/evaluation.md) · [流程检查](research/flow-review.md)
